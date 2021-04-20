@@ -447,9 +447,9 @@ _GLFWjoystick* _glfwAllocJoystick(const char* name,
     js = _glfw.joysticks + jid;
     js->present     = GLFW_TRUE;
     js->name        = _glfw_strdup(name);
-    js->axes        = calloc(axisCount, sizeof(float));
-    js->buttons     = calloc(buttonCount + (size_t) hatCount * 4, 1);
-    js->hats        = calloc(hatCount, 1);
+    js->axes        = (float*)calloc(axisCount, sizeof(float));
+    js->buttons     = (unsigned char*)calloc(buttonCount + (size_t) hatCount * 4, 1);
+    js->hats        = (unsigned char*)calloc(hatCount, 1);
     js->axisCount   = axisCount;
     js->buttonCount = buttonCount;
     js->hatCount    = hatCount;
@@ -751,7 +751,7 @@ GLFWAPI GLFWcursor* glfwCreateCursor(const GLFWimage* image, int xhot, int yhot)
 
     _GLFW_REQUIRE_INIT_OR_RETURN(NULL);
 
-    cursor = calloc(1, sizeof(_GLFWcursor));
+    cursor = (_GLFWcursor*)calloc(1, sizeof(_GLFWcursor));
     cursor->next = _glfw.cursorListHead;
     _glfw.cursorListHead = cursor;
 
@@ -785,7 +785,7 @@ GLFWAPI GLFWcursor* glfwCreateStandardCursor(int shape)
         return NULL;
     }
 
-    cursor = calloc(1, sizeof(_GLFWcursor));
+    cursor = (_GLFWcursor*)calloc(1, sizeof(_GLFWcursor));
     cursor->next = _glfw.cursorListHead;
     _glfw.cursorListHead = cursor;
 
@@ -1188,7 +1188,7 @@ GLFWAPI int glfwUpdateGamepadMappings(const char* string)
                     {
                         _glfw.mappingCount++;
                         _glfw.mappings =
-                            realloc(_glfw.mappings,
+                            (_GLFWmapping*)realloc(_glfw.mappings,
                                     sizeof(_GLFWmapping) * _glfw.mappingCount);
                         _glfw.mappings[_glfw.mappingCount - 1] = mapping;
                     }
