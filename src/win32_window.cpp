@@ -2396,10 +2396,17 @@ VkResult _glfwPlatformCreateWindowSurface(VkInstance instance,
 //////                        GLFW native API                       //////
 //////////////////////////////////////////////////////////////////////////
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 GLFWAPI HWND glfwGetWin32Window(GLFWwindow* handle)
 {
-    _GLFWwindow* window = (_GLFWwindow*) handle;
-    _GLFW_REQUIRE_INIT_OR_RETURN(NULL);
-    return window->win32.handle;
+  _GLFWwindow* window = (_GLFWwindow*)handle;
+  _GLFW_REQUIRE_INIT_OR_RETURN(NULL);
+  return window->win32.handle;
 }
 
+#ifdef __cplusplus
+}
+#endif
